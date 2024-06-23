@@ -36,12 +36,17 @@ import java.util.Optional;
 import java.util.Queue;
 
 /**
+ * 有序和同步是不一样的，有序确保的是在异步请求的情况下结果有序
+ * 即输入<a,b> 返回<r_a, r_b>, t_r_b - t_r_a是异步来保证的
+ * 同步可以确保有序，但还是效率太低了
+ * 什么场景需要数据是有序的呢？CEP？
  * Ordered {@link StreamElementQueue} implementation. The ordered stream element queue provides
  * asynchronous results in the order in which the {@link StreamElementQueueEntry} have been added to
  * the queue. Thus, even if the completion order can be arbitrary, the output order strictly follows
  * the insertion order (element cannot overtake each other).
  */
 @Internal
+// 为什么变成final？
 public final class OrderedStreamElementQueue<OUT> implements StreamElementQueue<OUT> {
 
     private static final Logger LOG = LoggerFactory.getLogger(OrderedStreamElementQueue.class);
@@ -61,6 +66,7 @@ public final class OrderedStreamElementQueue<OUT> implements StreamElementQueue<
 
     @Override
     public boolean hasCompletedElements() {
+        // 只有队列头部的请求完成后才解除阻塞状态
         return !queue.isEmpty() && queue.peek().isDone();
     }
 

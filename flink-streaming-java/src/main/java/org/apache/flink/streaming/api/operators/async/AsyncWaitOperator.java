@@ -186,9 +186,11 @@ public class AsyncWaitOperator<IN, OUT>
                         getOperatorConfig().<IN>getTypeSerializerIn1(getUserCodeClassloader()));
         switch (outputMode) {
             case ORDERED:
+                // 有序队列
                 queue = new OrderedStreamElementQueue<>(capacity);
                 break;
             case UNORDERED:
+                // 无序队列
                 queue = new UnorderedStreamElementQueue<>(capacity);
                 break;
             default:
