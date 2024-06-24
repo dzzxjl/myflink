@@ -32,6 +32,7 @@ import org.apache.flink.runtime.executiongraph.ExecutionAttemptID;
  * <p>This message may carry the handle to the task's chained operator state and the key group
  * state.
  */
+// 算子快照备份完成
 public class AcknowledgeCheckpoint extends AbstractCheckpointMessage {
 
     private static final long serialVersionUID = -7606214777192401493L;
