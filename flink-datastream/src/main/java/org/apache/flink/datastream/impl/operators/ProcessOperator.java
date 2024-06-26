@@ -81,7 +81,9 @@ public class ProcessOperator<IN, OUT>
 
     @Override
     public void processElement(StreamRecord<IN> element) throws Exception {
+        // 设置时间戳
         outputCollector.setTimestampFromStreamRecord(element);
+        // 用户自定义的 UserFunction
         userFunction.processRecord(element.getValue(), outputCollector, partitionedContext);
     }
 

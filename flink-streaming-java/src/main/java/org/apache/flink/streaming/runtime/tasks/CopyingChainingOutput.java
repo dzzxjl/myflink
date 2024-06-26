@@ -42,6 +42,7 @@ final class CopyingChainingOutput<T> extends ChainingOutput<T> {
 
     @Override
     public void collect(StreamRecord<T> record) {
+        // 如果是正常的流 outputTag 是空的所以会直接走下面的逻辑
         if (this.outputTag != null) {
             // we are not responsible for emitting to the main output.
             return;
@@ -67,10 +68,12 @@ final class CopyingChainingOutput<T> extends ChainingOutput<T> {
             // we know that the given outputTag matches our OutputTag so the record
             // must be of the type that our operator (and Serializer) expects.
             @SuppressWarnings("unchecked")
+            // 浅拷贝
             StreamRecord<T> castRecord = (StreamRecord<T>) record;
 
             numRecordsOut.inc();
             numRecordsIn.inc();
+            // 深拷贝
             StreamRecord<T> copy = castRecord.copy(serializer.copy(castRecord.getValue()));
             recordProcessor.accept(copy);
         } catch (ClassCastException e) {

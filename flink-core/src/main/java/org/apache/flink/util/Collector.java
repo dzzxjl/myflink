@@ -21,9 +21,10 @@ package org.apache.flink.util;
 import org.apache.flink.annotation.Public;
 
 /**
- * Collects a record and forwards it. The collector is the "push" counterpart of the {@link
+ * Collects a record and forwards it. The collector is the "push" counterpart(对应方) of the {@link
  * java.util.Iterator}, which "pulls" data in.
  */
+// 为什么在这里又有一个collector？org/apache/flink/datastream/api/common/Collector.java
 @Public
 public interface Collector<T> {
 
@@ -34,6 +35,6 @@ public interface Collector<T> {
      */
     void collect(T record);
 
-    /** Closes the collector. If any data was buffered, that data will be flushed. */
+    /** Closes the collector. If any data was buffered, that data will be flushed（刷新）. */
     void close();
 }

@@ -102,6 +102,7 @@ class ChainingOutput<T>
             // we know that the given outputTag matches our OutputTag so the record
             // must be of the type that our operator expects.
             @SuppressWarnings("unchecked")
+            // 浅拷贝
             StreamRecord<T> castRecord = (StreamRecord<T>) record;
 
             numRecordsOut.inc();

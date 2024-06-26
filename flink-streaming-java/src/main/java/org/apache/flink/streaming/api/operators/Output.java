@@ -30,7 +30,7 @@ import org.apache.flink.util.OutputTag;
 
 /**
  * A {@link org.apache.flink.streaming.api.operators.StreamOperator} is supplied with an object of
- * this interface that can be used to emit elements and other messages, such as barriers and
+ * this interface that can be used to emit elements and other messages（重点）, such as barriers and
  * watermarks, from an operator.
  *
  * @param <T> The type of the elements that can be emitted.
@@ -51,7 +51,7 @@ public interface Output<T> extends Collector<T> {
 
     /**
      * Emits a record to the side output identified by the given {@link OutputTag}.
-     *
+     * 侧流输出场景下
      * @param record The record to collect.
      */
     <X> void collect(OutputTag<X> outputTag, StreamRecord<X> record);

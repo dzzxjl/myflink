@@ -64,7 +64,7 @@ import static org.apache.flink.util.Preconditions.checkState;
  * This is a recommended base class for all of the {@link SinkFunction} that intend to implement
  * exactly-once semantic. It does that by implementing two phase commit algorithm on top of the
  * {@link CheckpointedFunction} and {@link CheckpointListener}. User should provide custom {@code
- * TXN} (transaction handle) and implement abstract methods handling this transaction handle.
+ * TXN} (transaction handle)(事务句柄) and implement abstract methods handling this transaction handle.
  *
  * @param <IN> Input type for {@link SinkFunction}.
  * @param <TXN> Transaction to store all of the information required to handle a transaction.
@@ -83,6 +83,7 @@ public abstract class TwoPhaseCommitSinkFunction<IN, TXN, CONTEXT> extends RichS
     protected final LinkedHashMap<Long, TransactionHolder<TXN>> pendingCommitTransactions =
             new LinkedHashMap<>();
 
+    // 对于transient 修饰的成员变量，在类的实例对象的序列化处理过程中会被忽略
     protected transient Optional<CONTEXT> userContext;
 
     protected transient ListState<State<TXN, CONTEXT>> state;
